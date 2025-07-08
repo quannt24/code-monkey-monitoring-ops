@@ -1,3 +1,7 @@
+global:
+  # Internal cluster domain
+  clusterDomain: cluster.local
+
 loki:
   loki:
     auth_enabled: true
