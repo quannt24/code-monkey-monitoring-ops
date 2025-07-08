@@ -36,15 +36,15 @@ loki:
     replicas: 1
     resources:
       limits:
-        cpu: 3
-        memory: 4Gi
+        cpu: 1
+        memory: 1Gi
       requests:
-        cpu: 2
-        memory: 2Gi
+        cpu: 0.2
+        memory: 500Mi
     extraEnv:
       # Keep a little bit lower than memory limits
       - name: GOMEMLIMIT
-        value: 3750MiB
+        value: 800MiB
 
   chunksCache:
     enabled: false
