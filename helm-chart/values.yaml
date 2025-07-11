@@ -23,3 +23,7 @@ grafana:
     existingSecret: grafana-admin-secret
     userKey: admin-user
     passwordKey: admin-password
+  persistence:
+    enabled: true
+    size: 100Mi
+    storageClassName: local-storage
