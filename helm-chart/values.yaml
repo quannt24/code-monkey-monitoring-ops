@@ -13,6 +13,10 @@ grafana:
     enabled: true
     hosts:
       - grafana.local
+    tls:
+      - secretName: grafana-tls-secret
+        hosts:
+          - grafana.local
   admin:
     existingSecret: grafana-admin-secret
     userKey: admin-user
