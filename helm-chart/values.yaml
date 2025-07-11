@@ -11,6 +11,8 @@ loki:
 grafana:
   ingress:
     enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: code-monkey-root-ca-cluster-issuer
     hosts:
       - grafana.local
     tls:
