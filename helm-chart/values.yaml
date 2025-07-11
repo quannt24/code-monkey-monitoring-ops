@@ -7,3 +7,9 @@ loki:
     auth_enabled: true
     storage:
       type: filesystem
+
+grafana:
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.local
