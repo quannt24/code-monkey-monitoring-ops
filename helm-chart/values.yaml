@@ -1,9 +1,14 @@
 global:
   # Internal cluster domain
   clusterDomain: cluster.local
+  # loki:
+  #   basicAuthUsername: sops_secret
+  #   basicAuthPassword: sops_secret
 
 loki:
   loki:
+    # When auth_enabled is true, Loki will require authentication for all requests,
+    # and the header "X-Scope-OrgID" must be set in requests.
     auth_enabled: true
     storage:
       type: filesystem
@@ -12,9 +17,9 @@ loki:
       type: Recreate
     basicAuth:
       enabled: true
-      # Defined in secrets values file
-      # username: sops_secret
-      # password: sops_secret
+      # Just repeat of default values, but with global encrypted values
+      htpasswd:  >-
+        "{{ htpasswd (required "'global.loki.basicAuthUsername' is required" .Values.global.loki.basicAuthUsername) (required "'global.loki.basicAuthPassword' is required" .Values.global.loki.basicAuthPassword) }}"
   test:
     enabled: false
   lokiCanary:
@@ -44,3 +49,23 @@ grafana:
     enabled: true
     size: 100Mi
     storageClassName: local-path
+
+  ## Configure grafana datasources
+  ## ref: http://docs.grafana.org/administration/provisioning/#datasources
+  ##
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: loki
+          type: loki
+          isDefault: true
+          access: proxy
+          url: http://monitoring-app-loki-gateway.monitoring.svc.cluster.local
+          basicAuth: true
+          basicAuthUser: "{{ .Values.global.loki.basicAuthUsername }}"
+          basicAuthPassword: "{{ .Values.global.loki.basicAuthPassword }}"
+          httpHeaderName1: "X-Scope-OrgID"
+          httpHeaderValue1: "grafana"
+          jsonData:
+            maxLines: 1000
