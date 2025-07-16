@@ -17,6 +17,8 @@ loki:
       # password: sops_secret
   test:
     enabled: false
+  lokiCanary:
+    enabled: false
 
 grafana:
   ingress:
