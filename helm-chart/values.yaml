@@ -27,3 +27,5 @@ grafana:
     enabled: true
     size: 100Mi
     storageClassName: local-storage
+  deploymentStrategy:
+    type: Recreate
