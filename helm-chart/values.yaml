@@ -8,6 +8,8 @@ loki:
     storage:
       type: filesystem
   gateway:
+    deploymentStrategy:
+      type: Recreate
     basicAuth:
       enabled: true
       # Defined in secrets values file
