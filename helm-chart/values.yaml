@@ -7,6 +7,12 @@ loki:
     auth_enabled: true
     storage:
       type: filesystem
+  gateway:
+    basicAuth:
+      enabled: true
+      # Defined in secrets values file
+      # username: sops_secret
+      # password: sops_secret
 
 grafana:
   ingress:
@@ -19,13 +25,16 @@ grafana:
       - secretName: grafana-tls-secret
         hosts:
           - grafana.local
+
   admin:
     existingSecret: grafana-admin-secret
     userKey: admin-user
     passwordKey: admin-password
+
+  deploymentStrategy:
+    type: Recreate
+
   persistence:
     enabled: true
     size: 100Mi
-    storageClassName: local-storage
-  deploymentStrategy:
-    type: Recreate
+    storageClassName: local-path
