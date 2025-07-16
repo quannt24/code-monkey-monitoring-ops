@@ -7,12 +7,14 @@ global:
 
 loki:
   loki:
+    revisionHistoryLimit: 2
     # When auth_enabled is true, Loki will require authentication for all requests,
     # and the header "X-Scope-OrgID" must be set in requests.
     auth_enabled: true
     storage:
       type: filesystem
   gateway:
+    revisionHistoryLimit: 2
     deploymentStrategy:
       type: Recreate
     basicAuth:
@@ -26,6 +28,7 @@ loki:
     enabled: false
 
 grafana:
+  revisionHistoryLimit: 2
   ingress:
     enabled: true
     annotations:
@@ -65,7 +68,8 @@ grafana:
           basicAuth: true
           basicAuthUser: "{{ .Values.global.loki.basicAuthUsername }}"
           basicAuthPassword: "{{ .Values.global.loki.basicAuthPassword }}"
-          httpHeaderName1: "X-Scope-OrgID"
-          httpHeaderValue1: "grafana"
           jsonData:
             maxLines: 1000
+            httpHeaderName1: "X-Scope-OrgID"
+          secureJsonData:
+            httpHeaderValue1: "grafana"
