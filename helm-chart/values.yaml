@@ -41,6 +41,7 @@ fluent-bit:
           host monitoring-app-loki-gateway.monitoring.svc.cluster.local
           port 80
           uri /loki/api/v1/push
+          tenant_id fluent-bit
           HTTP_User {{ toYaml .Values.global.loki.basicAuthUsername }}
           HTTP_Passwd {{ toYaml .Values.global.loki.basicAuthPassword }}
           labels job=fluentbit
