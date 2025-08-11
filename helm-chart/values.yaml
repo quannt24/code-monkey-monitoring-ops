@@ -20,8 +20,8 @@ loki:
       type: Recreate
     basicAuth:
       enabled: true
-      username: loki
-      password: loki
+      username: "{{ .Values.global.loki.basicAuthUsername }}"
+      password: "{{ .Values.global.loki.basicAuthPassword }}"
   test:
     enabled: false
   lokiCanary:
@@ -81,7 +81,7 @@ grafana:
           access: proxy
           url: http://monitoring-app-loki-gateway.monitoring.svc.cluster.local
           basicAuth: true
-          basicAuthUser: loki
+          basicAuthUser: "{{ .Values.global.loki.basicAuthUsername }}"
           jsonData:
             maxLines: 1000
             httpHeaderName1: X-Scope-OrgID
