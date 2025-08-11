@@ -36,15 +36,15 @@ fluent-bit:
     #         loki
     outputs: |
       [OUTPUT]
-        name                    loki
-        match                   *
-        host                    monitoring-app-loki-gateway.monitoring.svc.cluster.local
-        port                    80
-        Url                     /loki/api/v1/push
-        HTTP_User               {{ toYaml .Values.global.loki.basicAuthUsername }}
-        HTTP_Passwd             {{ toYaml .Values.global.loki.basicAuthPassword }}
-        labels                  job=fluentbit
-        auto_kubernetes_labels  on
+          name loki
+          match *
+          host monitoring-app-loki-gateway.monitoring.svc.cluster.local
+          port 80
+          Url /loki/api/v1/push
+          HTTP_User {{ toYaml .Values.global.loki.basicAuthUsername }}
+          HTTP_Passwd {{ toYaml .Values.global.loki.basicAuthPassword }}
+          labels job=fluentbit
+          auto_kubernetes_labels on
 
 grafana:
   revisionHistoryLimit: 2
