@@ -76,22 +76,20 @@ grafana:
 
   ## Configure grafana datasources
   ## ref: http://docs.grafana.org/administration/provisioning/#datasources
-  datasources:
-    datasources.yaml:
-      apiVersion: 1
-      datasources:
-        - name: loki
-          type: loki
-          isDefault: true
-          access: proxy
-          url: http://monitoring-app-loki-gateway.monitoring.svc.cluster.local
-          basicAuth: true
-          basicAuthUser: |
-            {{ .Values.global.loki.basicAuthUsername }}
-          basicAuthPassword: |
-            {{ .Values.global.loki.basicAuthPassword }}
-          jsonData:
-            maxLines: 1000
-            httpHeaderName1: X-Scope-OrgID
-          secureJsonData:
-            httpHeaderValue1: "{{ .Values.global.tenantId }}"
+  # datasources:
+  #   datasources.yaml: 
+  #     apiVersion: 1
+  #     datasources:
+  #       - name: loki
+  #         type: loki
+  #         isDefault: true
+  #         access: proxy
+  #         url: http://monitoring-app-loki-gateway.monitoring.svc.cluster.local
+  #         basicAuth: true
+  #         basicAuthUser: "{{ .Values.global.loki.basicAuthUsername }}"
+  #         basicAuthPassword: "{{ .Values.global.loki.basicAuthPassword }}"
+  #         jsonData:
+  #           maxLines: 1000
+  #           httpHeaderName1: X-Scope-OrgID
+  #         secureJsonData:
+  #           httpHeaderValue1: "{{ .Values.global.tenantId }}"
