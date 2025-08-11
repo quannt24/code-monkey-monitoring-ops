@@ -20,8 +20,8 @@ loki:
       type: Recreate
     basicAuth:
       enabled: true
-      username: "{{ .Values.global.loki.basicAuthUsername }}"
-      password: "{{ .Values.global.loki.basicAuthPassword }}"
+      # username: sops_secret
+      # password: sops_secret
   test:
     enabled: false
   lokiCanary:
