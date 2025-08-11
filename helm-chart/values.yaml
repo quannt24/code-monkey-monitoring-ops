@@ -86,9 +86,10 @@ grafana:
           url: http://monitoring-app-loki-gateway.monitoring.svc.cluster.local
           basicAuth: true
           basicAuthUser: loki
-          basicAuthPassword: loki
+          # basicAuthPassword: loki
           jsonData:
             maxLines: 1000
             httpHeaderName1: X-Scope-OrgID
           secureJsonData:
+            basicAuthPassword: loki
             httpHeaderValue1: "{{ .Values.global.tenantId }}"
