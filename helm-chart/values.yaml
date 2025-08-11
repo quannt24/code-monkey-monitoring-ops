@@ -27,6 +27,24 @@ loki:
   lokiCanary:
     enabled: false
 
+fluent-bit:
+  revisionHistoryLimit: 2
+  config:
+    extraFiles:
+      upstream.conf: |
+        [UPSTREAM]
+            loki
+        [NODE]
+            name       loki-gateway
+            host       monitoring-app-loki-gateway.monitoring.svc.cluster.local
+            port       80
+    output: |
+      [OUTPUT]
+        name                    loki
+        match                   *
+        labels                  job=fluentbit
+        auto_kubernetes_labels  on
+
 grafana:
   revisionHistoryLimit: 2
   ingress:
@@ -65,10 +83,8 @@ grafana:
           access: proxy
           url: http://monitoring-app-loki-gateway.monitoring.svc.cluster.local
           basicAuth: true
-          basicAuthUser: |
-            {{ .Values.global.loki.basicAuthUsername }}
-          basicAuthPassword: |
-            {{ .Values.global.loki.basicAuthPassword }}
+          basicAuthUser: "{{ toYaml .Values.global.loki.basicAuthUsername }}"
+          basicAuthPassword: "{{ .Values.global.loki.basicAuthPassword }}"
           jsonData:
             maxLines: 1000
             httpHeaderName1: "X-Scope-OrgID"

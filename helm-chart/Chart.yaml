@@ -11,6 +11,9 @@ dependencies:
   - name: loki
     version: 6.30.1
     repository: "@grafana"
+  - name: fluent-bit
+    version: 0.50.0
+    repository: "@fluent"
   - name: grafana
     version: 9.2.10
     repository: "@grafana"
