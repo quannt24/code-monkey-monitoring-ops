@@ -20,9 +20,7 @@ loki:
       type: Recreate
     basicAuth:
       enabled: true
-      # Just repeat of default values, but with global encrypted values
-      htpasswd:  >-
-        {{ htpasswd (required "'global.loki.basicAuthUsername' is required" .Values.global.loki.basicAuthUsername) (required "'global.loki.basicAuthPassword' is required" .Values.global.loki.basicAuthPassword) }}
+      # htpasswd: sops_secret
   test:
     enabled: false
   lokiCanary:
