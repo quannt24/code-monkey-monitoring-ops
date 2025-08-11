@@ -1,0 +1,12 @@
+dependencies:
+- name: loki
+  repository: https://grafana.github.io/helm-charts
+  version: 6.30.1
+- name: fluent-bit
+  repository: https://fluent.github.io/helm-charts
+  version: 0.50.0
+- name: grafana
+  repository: https://grafana.github.io/helm-charts
+  version: 9.2.10
+digest: sha256:addd2fd74148832bdc7a64f63e454eced324527a2f4b02c5a468620c933266ff
+generated: "2025-08-11T12:23:36.580361794+07:00"

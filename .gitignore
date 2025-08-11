@@ -4,5 +4,6 @@ secret/
 *secret.yaml
 
 charts/
-Chart.lock
+# Do not ignore Chart.lock as the charts are committed to avoid chart pull timeout
+# Chart.lock
 helm-chart/templated.yaml
