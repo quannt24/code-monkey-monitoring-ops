@@ -30,10 +30,6 @@ loki:
 fluent-bit:
   revisionHistoryLimit: 2
   config:
-    # extraFiles:
-    #   upstream.conf: |
-    #     [UPSTREAM]
-    #         loki
     outputs: |
       [OUTPUT]
           name loki
@@ -43,7 +39,7 @@ fluent-bit:
           uri /loki/api/v1/push
           tenant_id {{ .Values.global.tenantId }}
           HTTP_User loki
-          HTTP_Passwd loki
+          HTTP_Passwd {{ .Values.global.loki.basicAuthPassword }}
           labels job=fluentbit
           auto_kubernetes_labels on
 
