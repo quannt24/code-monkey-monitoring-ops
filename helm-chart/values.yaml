@@ -30,18 +30,18 @@ loki:
 fluent-bit:
   revisionHistoryLimit: 2
   config:
-    extraFiles:
-      upstream.conf: |
-        [UPSTREAM]
-            loki
-        [NODE]
-            name       loki-gateway
-            host       monitoring-app-loki-gateway.monitoring.svc.cluster.local
-            port       80
+    # extraFiles:
+    #   upstream.conf: |
+    #     [UPSTREAM]
+    #         loki
     output: |
       [OUTPUT]
         name                    loki
         match                   *
+        host                    monitoring-app-loki-gateway.monitoring.svc.cluster.local
+        port                    80
+        HTTP_User               {{ toYaml .Values.global.loki.basicAuthUsername }}
+        HTTP_Passwd             {{ toYaml .Values.global.loki.basicAuthPassword }}
         labels                  job=fluentbit
         auto_kubernetes_labels  on
 
