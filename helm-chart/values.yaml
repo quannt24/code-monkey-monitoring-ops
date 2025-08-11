@@ -86,8 +86,10 @@ grafana:
           access: proxy
           url: http://monitoring-app-loki-gateway.monitoring.svc.cluster.local
           basicAuth: true
-          basicAuthUser: "{{ .Values.global.loki.basicAuthUsername }}"
-          basicAuthPassword: "{{ .Values.global.loki.basicAuthPassword }}"
+          basicAuthUser: |
+            {{ .Values.global.loki.basicAuthUsername }}
+          basicAuthPassword: |
+            {{ .Values.global.loki.basicAuthPassword }}
           jsonData:
             maxLines: 1000
             httpHeaderName1: X-Scope-OrgID
