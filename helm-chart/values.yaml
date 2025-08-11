@@ -1,6 +1,7 @@
 global:
   # Internal cluster domain
   clusterDomain: cluster.local
+  tenantId: code-monkey
   # loki:
   #   basicAuthUsername: sops_secret
   #   basicAuthPassword: sops_secret
@@ -41,7 +42,7 @@ fluent-bit:
           host monitoring-app-loki-gateway.monitoring.svc.cluster.local
           port 80
           uri /loki/api/v1/push
-          tenant_id fluent-bit
+          tenant_id {{ .Values.global.tenantId }}
           HTTP_User {{ toYaml .Values.global.loki.basicAuthUsername }}
           HTTP_Passwd {{ toYaml .Values.global.loki.basicAuthPassword }}
           labels job=fluentbit
@@ -86,9 +87,9 @@ grafana:
           url: http://monitoring-app-loki-gateway.monitoring.svc.cluster.local
           basicAuth: true
           basicAuthUser: "{{ toYaml .Values.global.loki.basicAuthUsername }}"
-          basicAuthPassword: "{{ .Values.global.loki.basicAuthPassword }}"
+          basicAuthPassword: "{{ toYaml .Values.global.loki.basicAuthPassword }}"
           jsonData:
             maxLines: 1000
             httpHeaderName1: "X-Scope-OrgID"
           secureJsonData:
-            httpHeaderValue1: "grafana"
+            httpHeaderValue1: {{ .Values.global.tenantId }}
