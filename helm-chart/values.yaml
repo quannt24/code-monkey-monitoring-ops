@@ -21,6 +21,7 @@ loki:
     basicAuth:
       enabled: true
       # htpasswd: sops_secret
+      existingSecret: loki-gateway-secret
   test:
     enabled: false
   lokiCanary:
