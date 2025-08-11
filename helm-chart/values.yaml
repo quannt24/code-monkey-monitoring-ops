@@ -38,7 +38,7 @@ fluent-bit:
           port 80
           uri /loki/api/v1/push
           tenant_id {{ .Values.global.tenantId }}
-          HTTP_User loki
+          HTTP_User {{ .Values.global.loki.basicAuthUsername }}
           HTTP_Passwd {{ .Values.global.loki.basicAuthPassword }}
           labels job=fluentbit
           auto_kubernetes_labels on
@@ -82,10 +82,9 @@ grafana:
           url: http://monitoring-app-loki-gateway.monitoring.svc.cluster.local
           basicAuth: true
           basicAuthUser: loki
-          # basicAuthPassword: loki
           jsonData:
             maxLines: 1000
             httpHeaderName1: X-Scope-OrgID
           secureJsonData:
-            basicAuthPassword: loki
+            basicAuthPassword: "{{ .Values.global.loki.basicAuthPassword }}"
             httpHeaderValue1: "{{ .Values.global.tenantId }}"
