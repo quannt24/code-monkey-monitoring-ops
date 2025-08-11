@@ -20,8 +20,8 @@ loki:
       type: Recreate
     basicAuth:
       enabled: true
-      # htpasswd: sops_secret
-      existingSecret: loki-gateway-secret
+      username: loki
+      password: loki
   test:
     enabled: false
   lokiCanary:
@@ -42,8 +42,8 @@ fluent-bit:
           port 80
           uri /loki/api/v1/push
           tenant_id {{ .Values.global.tenantId }}
-          HTTP_User {{ .Values.global.loki.basicAuthUsername }}
-          HTTP_Passwd {{ .Values.global.loki.basicAuthPassword }}
+          HTTP_User loki
+          HTTP_Passwd loki
           labels job=fluentbit
           auto_kubernetes_labels on
 
@@ -75,20 +75,20 @@ grafana:
 
   ## Configure grafana datasources
   ## ref: http://docs.grafana.org/administration/provisioning/#datasources
-  # datasources:
-  #   datasources.yaml: 
-  #     apiVersion: 1
-  #     datasources:
-  #       - name: loki
-  #         type: loki
-  #         isDefault: true
-  #         access: proxy
-  #         url: http://monitoring-app-loki-gateway.monitoring.svc.cluster.local
-  #         basicAuth: true
-  #         basicAuthUser: "{{ .Values.global.loki.basicAuthUsername }}"
-  #         basicAuthPassword: "{{ .Values.global.loki.basicAuthPassword }}"
-  #         jsonData:
-  #           maxLines: 1000
-  #           httpHeaderName1: X-Scope-OrgID
-  #         secureJsonData:
-  #           httpHeaderValue1: "{{ .Values.global.tenantId }}"
+  datasources:
+    datasources.yaml: 
+      apiVersion: 1
+      datasources:
+        - name: loki
+          type: loki
+          isDefault: true
+          access: proxy
+          url: http://monitoring-app-loki-gateway.monitoring.svc.cluster.local
+          basicAuth: true
+          basicAuthUser: loki
+          basicAuthPassword: loki
+          jsonData:
+            maxLines: 1000
+            httpHeaderName1: X-Scope-OrgID
+          secureJsonData:
+            httpHeaderValue1: "{{ .Values.global.tenantId }}"
