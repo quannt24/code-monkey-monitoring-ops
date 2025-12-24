@@ -1,0 +1,53 @@
+global:
+  # Internal cluster domain
+  clusterDomain: cluster.local
+  tenantId: code-monkey
+  # loki:
+  #   basicAuthUsername: sops_secret
+  #   basicAuthPassword: sops_secret
+
+grafana:
+  revisionHistoryLimit: 2
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: code-monkey-root-ca-cluster-issuer
+    hosts:
+      - grafana.local
+    tls:
+      - secretName: grafana-tls-secret
+        hosts:
+          - grafana.local
+
+  admin:
+    existingSecret: grafana-admin-secret
+    userKey: admin-user
+    passwordKey: admin-password
+
+  deploymentStrategy:
+    type: Recreate
+
+  persistence:
+    enabled: true
+    size: 100Mi
+    storageClassName: local-path
+
+  ## Configure grafana datasources
+  ## ref: http://docs.grafana.org/administration/provisioning/#datasources
+  datasources:
+    datasources.yaml: 
+      apiVersion: 1
+      datasources:
+        - name: loki
+          type: loki
+          isDefault: true
+          access: proxy
+          url: http://monitoring-logging-loki-gateway.monitoring.svc.cluster.local
+          basicAuth: true
+          basicAuthUser: "{{ .Values.global.loki.basicAuthUsername }}"
+          jsonData:
+            maxLines: 1000
+            httpHeaderName1: X-Scope-OrgID
+          secureJsonData:
+            basicAuthPassword: "{{ .Values.global.loki.basicAuthPassword }}"
+            httpHeaderValue1: "{{ .Values.global.tenantId }}"

@@ -1,0 +1,13 @@
+apiVersion: v2
+name: dashboard
+description: Argo CD Application for monitoring dashboard
+type: application
+version: 0.0.0
+maintainers:
+  - name: quannt24
+    url: https://github.com/quannt24
+
+dependencies:
+  - name: grafana
+    version: 9.2.10
+    repository: "@grafana"
