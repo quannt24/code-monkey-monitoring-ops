@@ -1,6 +1,6 @@
 apiVersion: v2
-name: monitoring-app
-description: Argo CD Application for monitoring
+name: logging
+description: Argo CD Application for logging
 type: application
 version: 0.0.0
 maintainers:
@@ -14,6 +14,3 @@ dependencies:
   - name: fluent-bit
     version: 0.50.0
     repository: "@fluent"
-  - name: grafana
-    version: 9.2.10
-    repository: "@grafana"

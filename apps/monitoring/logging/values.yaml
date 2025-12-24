@@ -1,0 +1,44 @@
+global:
+  # Internal cluster domain
+  clusterDomain: cluster.local
+  tenantId: code-monkey
+  # loki:
+  #   basicAuthUsername: sops_secret
+  #   basicAuthPassword: sops_secret
+
+loki:
+  loki:
+    revisionHistoryLimit: 2
+    # When auth_enabled is true, Loki will require authentication for all requests,
+    # and the header "X-Scope-OrgID" must be set in requests.
+    auth_enabled: true
+    storage:
+      type: filesystem
+  gateway:
+    revisionHistoryLimit: 2
+    deploymentStrategy:
+      type: Recreate
+    basicAuth:
+      enabled: true
+      # username: sops_secret
+      # password: sops_secret
+  test:
+    enabled: false
+  lokiCanary:
+    enabled: false
+
+fluent-bit:
+  revisionHistoryLimit: 2
+  config:
+    outputs: |
+      [OUTPUT]
+          name loki
+          match *
+          host monitoring-loki-gateway.monitoring.svc.cluster.local
+          port 80
+          uri /loki/api/v1/push
+          tenant_id {{ .Values.global.tenantId }}
+          HTTP_User {{ .Values.global.loki.basicAuthUsername }}
+          HTTP_Passwd {{ .Values.global.loki.basicAuthPassword }}
+          labels job=fluentbit
+          auto_kubernetes_labels on

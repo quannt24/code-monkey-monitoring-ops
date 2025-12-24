@@ -4,6 +4,6 @@ secret/
 *secret.yaml
 
 charts/
-# Do not ignore Chart.lock as the charts are committed to avoid chart pull timeout
+# Do not ignore Chart.lock as the charts are committed to avoid chart pull timeout of Grafana charts
 # Chart.lock
-helm-chart/templated.yaml
+templated.yaml
